@@ -48,8 +48,6 @@ def trainNetwork(files_path, out):
     for file_ in img_files:
         label_int = ord(file_[0])
         label_bin = "{0:b}".format(label_int)
-        print(file_)
-        print(label_bin)
         for x in range(0,out-len(label_bin)):
             label_bin = "0" + label_bin
             pass
@@ -103,9 +101,9 @@ n = neuralNetwork(inputs, hidden, outputs, lr)
 setWeights("./weights_who.txt", "./weights_wih.txt", n, outputs, hidden, inputs)
 
 # Train the network
-trainNetwork("./handwritten/letters/small", outputs)
-trainNetwork("./handwritten/letters/capital", outputs)
-trainNetwork("./handwritten/numbers", outputs)
+# trainNetwork("./handwritten/letters/small", outputs)
+# trainNetwork("./handwritten/letters/capital", outputs)
+# trainNetwork("./handwritten/numbers", outputs)
 
 # Save the weights
-writeWeights("./weights_who.txt", "./weights_wih.txt", n)
+# writeWeights("./weights_who.txt", "./weights_wih.txt", n)
