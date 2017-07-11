@@ -1,4 +1,4 @@
-from NN import neuralNetwork
+from .NN import neuralNetwork
 import scipy.misc
 import os
 import numpy
@@ -52,6 +52,6 @@ def setUpAndGetNetwork():
     lr = 0.3
 
     n = neuralNetwork(inputs, hidden, outputs, lr)
-    #setWeights("./weights_who.txt", "./weights_wih.txt", n, outputs, hidden, inputs)
+    setWeights("/home/torkilso/Documents/textrec/neural/weights_who.txt", "/home/torkilso/Documents/textrec/neural/weights_wih.txt", n, outputs, hidden, inputs)
     
     return n
