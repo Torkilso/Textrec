@@ -101,9 +101,9 @@ n = neuralNetwork(inputs, hidden, outputs, lr)
 setWeights("./weights_who.txt", "./weights_wih.txt", n, outputs, hidden, inputs)
 
 # Train the network
-# trainNetwork("./handwritten/letters/small", outputs)
-# trainNetwork("./handwritten/letters/capital", outputs)
-# trainNetwork("./handwritten/numbers", outputs)
+trainNetwork("./handwritten/letters/small", outputs)
+trainNetwork("./handwritten/letters/capital", outputs)
+trainNetwork("./handwritten/numbers", outputs)
 
 # Save the weights
-# writeWeights("./weights_who.txt", "./weights_wih.txt", n)
+writeWeights("./weights_who.txt", "./weights_wih.txt", n)
