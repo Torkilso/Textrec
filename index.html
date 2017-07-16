@@ -1,5 +1,6 @@
  <html>
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
 
 
@@ -16,10 +17,25 @@
             canvasSmall.width = 28;
             canvasSmall.height = 28;
             ctx.drawImage(canvasLarge, 0, 0, 28, 28);
+            
+            var image = canvasSmall.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+            console.log(image);
 
-            // Add ajax post call
-            console.log(canvasSmall.toDataURL());
-        }        
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:5000/input',
+                data: {
+                    img: canvasSmall.toDataURL()   
+                },
+                success: function(data) {
+                    console.log(data);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+                    //window.location.href=image; // it will save locally
+        }          
             
         function createCanvas(parent, width, height) {
             let canvas = {};
@@ -50,7 +66,7 @@
                 ctx.fillRect(0, 0, width, height);
             };
             
-            ctx.clearTo(fillColor || "#ddd");
+            ctx.clearTo(fillColor || "#fff");
 
                 // bind mouse events
             canvas.node.onmousemove = function(e) {
@@ -60,7 +76,7 @@
                     
                 var x = e.pageX - this.offsetLeft;
                 var y = e.pageY - this.offsetTop;
-                var radius = 10; // or whatever
+                var radius = 8; // or whatever
                 var fillColor = '#000000';
                 ctx.fillCircle(x, y, radius, fillColor);
             };
@@ -75,6 +91,6 @@
         }
 
         var container = document.getElementById('canvas');
-        init(container, 200, 200, '#ddd');
+        init(container, 200, 200, '#fff');
     </script>
 </html>
