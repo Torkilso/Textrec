@@ -1,62 +1,30 @@
 #!/usr/bin/env python
 
-import textwrap
-import threading
 from neural import initNeuralNetwork
-
-from six.moves.BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-
-
-class HelloRequestHandler(BaseHTTPRequestHandler):
-
-    def do_GET(self):
-        if self.path == '/input':
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html; charset=utf-8')
-            self.end_headers()
-            response_text = textwrap.dedent('''\
-                <html>
-                <head>
-                    <title>Greetings to the world</title>
-                </head>
-                <body>
-                    <h1>Greetings to the world</h1>
-                    <p>Hello, world!</p>
-                </body>
-                </html>
-            ''')
-            self.wfile.write(response_text.encode('utf-8'))
-            return
-        if self.path != '/':
-            self.send_error(404, "Object not found")
-            return
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html; charset=utf-8')
-        self.end_headers()
-        response_text = textwrap.dedent('''\
-            <html>
-            <head>
-                <title>Greetings to the world</title>
-            </head>
-            <body>
-                <h1>Greetings to the world</h1>
-                <p>Hello, world!</p>
-            </body>
-            </html>
-        ''')
-        self.wfile.write(response_text.encode('utf-8'))
-
-
+from neural import query
+from flask import Flask, request
+import base64
 
 neuralNetwork = initNeuralNetwork.setUpAndGetNetwork()
 
+app = Flask(__name__)
+app.static_folder = ''
 
-def server(HTTPServer):
-    HTTPServer.serve_forever()
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
 
-server_address = ('', 8000)
-httpd = HTTPServer(server_address, HelloRequestHandler)
+@app.route('/input', methods=['POST'])
+def input():
+    requestImage = request.form['img'][22:]
+    decodedImage = base64.b64decode(requestImage)
 
-serverThread = threading.Thread(target=server, args=[httpd])
-serverThread.start()
-print('Running on 8000!')
+    image = open("input.png", "wb")
+    image.write(decodedImage)
+    image.close()
+
+    ouputFromNeuralNetwork = query.queryNetwork(neuralNetwork)
+
+    return ouputFromNeuralNetwork
+
+print('Running on 5000!')
