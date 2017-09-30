@@ -18,7 +18,7 @@
             canvasSmall.height = 28;
             ctx.drawImage(canvasLarge, 0, 0, 28, 28);
             
-            var image = canvasSmall.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+            var image = canvasSmall.toDataURL("image/png").replace("image/png", "image/octet-stream");
             console.log(image);
 
             $.ajax({
